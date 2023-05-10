@@ -35,19 +35,19 @@ test('initial conditions', () => {
 test('button gets disabled by checkbox', () => {
   render(<App />);
 
-  const button = screen.getByRole('button');
-  const checkbox = screen.getByRole('checkbox');
+  const colorButton = screen.getByRole('button', {name: 'Change to blue'});
+  const checkbox = screen.getByRole('checkbox', {name: 'Disable button'});
 
   // select checkbox
   fireEvent.click(checkbox);
 
   expect(checkbox).toBeChecked();
-  expect(button).toBeDisabled();
+  expect(colorButton).toBeDisabled();
 
   // uncheck checkbox
   fireEvent.click(checkbox);
 
   expect(checkbox).not.toBeChecked();
-  expect(button).toBeEnabled();
+  expect(colorButton).toBeEnabled();
   
 });
