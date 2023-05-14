@@ -8,7 +8,7 @@ const OrderDetails = createContext();
 export function useOrderDetails() {
     const contextValue = useContext(OrderDetails);
     if (!contextValue) {
-        throw new Error (
+        throw new Error(
             "useOrderDetails must be called from within an OrderDetails Provider"
         );
     }
@@ -22,9 +22,9 @@ export function OrderDetailsProvder(props) {
         toppings: {} // example: {"Gummy Bears": 1}
     });
 
-    function updateItemCount(itemName , newItemCount, optionType) {
+    function updateItemCount(itemName, newItemCount, optionType) {
         // make a copy of existing state
-        const newOptionCounts = { ...optionCounts} ;
+        const newOptionCounts = { ...optionCounts };
 
         // update the copy with the new information
         newOptionCounts[optionType][itemName] = newItemCount;
@@ -34,7 +34,7 @@ export function OrderDetailsProvder(props) {
     }
 
     function resetOrder() {
-        setOptionCounts({scoops: {}, toppings: {}});
+        setOptionCounts({ scoops: {}, toppings: {} });
     }
 
     // utility function to derive totals from optionCounts state value
@@ -51,9 +51,9 @@ export function OrderDetailsProvder(props) {
 
     const totals = {
         scoops: calculateTotal("scoops"),
-        toppings: calculateTotal("toppings"),
+        toppings: calculateTotal("toppings")
     };
 
     const value = { optionCounts, totals, updateItemCount, resetOrder };
-    return <OrderDetails.Provider value = {value} {...props} />;
+    return <OrderDetails.Provider value={value} {...props} />;
 }

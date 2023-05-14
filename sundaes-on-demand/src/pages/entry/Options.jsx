@@ -15,10 +15,19 @@ export default function Options({ optionType }) {
 
     // optionType is 'scoops' or 'toppings'
     useEffect(() => {
+        // create an abortController to attach network request
+        const controller = new AbortController();
         axios
-            .get(`http://localhost:3030/${optionType}`)
+            .get(`http://localhost:3030/${optionType}`, { signal: controller.signal })
             .then((response) => setItems(response.data))
-            .catch((error) => setError(true));
+            .catch((error) => {
+                if (error.name !== "CancelError") setError(true)
+            });
+
+        // abort axios call on component unmount
+        return () => {
+            controller.abort();
+        }
     }, [optionType]);
 
     if (error) {
@@ -41,7 +50,7 @@ export default function Options({ optionType }) {
             <h2>{title}</h2>
             <p>{formatCurrency(pricePerItem[optionType])} each</p>
             <p>{title} total: {formatCurrency(totals[optionType])}</p>
-            <Row>{optionItems}</Row>);
+            <Row>{optionItems}</Row>
         </>
     );
 }
